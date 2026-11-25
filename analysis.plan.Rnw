@@ -1,0 +1,78 @@
+\documentclass[12pt]{article}
+
+\input{4mbapreamble}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% FANCY HEADER AND FOOTER STUFF %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr,lastpage}
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer parameters
+%%%\lhead{Student Name: \theblank{4cm}}
+%%%\chead{}
+%%%\rhead{Student Number: \theblank{3cm}}
+%%%\lfoot{\small\bfseries\ifnum\thepage<\pageref{LastPage}{CONTINUED\\on next page}\else{LAST PAGE}\fi}
+\lfoot{}
+\cfoot{{\small\bfseries Page \thepage\ of \pageref{LastPage}}}
+\rfoot{}
+\renewcommand\headrulewidth{0pt} % Removes funny header line
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[margin=1in]{geometry}
+
+\title{%
+  {\bfseries Analysis Plan}\\[0.75em]
+  \large Biology 3SA3: Applied Statistics\\[0.5em]
+  \large\underline{\emph{Group Name}}: group name here
+}
+
+\author{Hazel Buechner, Cadence D'Souza, Harveer Hunjan,\\
+  Laura Nita, Georg Persson Prigorowsky, Vaisnavan Sathiyabavan}
+
+\date{November 26, 2026}
+
+
+\begin{document}
+
+
+\maketitle
+
+<<load.data, echo=FALSE, include=FALSE>>=
+
+library(readr)
+library(dplyr)
+tumor <- read_csv("tumor.csv")
+
+@
+
+\section{Summary}
+
+
+
+\section{Hypothesis}
+
+H1: A smaller average daily rate of tumor growth will be observed in mice receiving treatment compared to control
+
+H2: 
+
+
+\section{Data}
+
+
+\section{Analysis Plan}
+
+
+\section{Plan: Division of Labour}
+
+
+
+
+
+
+\bigskip
+Compile time for this document:
+\today\ @ \thistime
+
+\end{document}
