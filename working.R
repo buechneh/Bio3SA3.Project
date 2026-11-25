@@ -1,7 +1,8 @@
-summary(tumor)
-
 
 library(dplyr)
+library(readr)
+
+tumor <- read_csv("tumor.csv")
 
 tumor_summary <- tumor %>%
   arrange(ID, Day) %>%                 
@@ -18,6 +19,3 @@ tumor_summary <- tumor %>%
     .groups = "drop"
   )%>%mutate(Group= as.factor(floor(ID/100)))
 
-
-model<- lm(avg_daily_change~ Group, data=tumor_summary)
-summary(model)
