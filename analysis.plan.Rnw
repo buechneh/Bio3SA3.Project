@@ -47,21 +47,150 @@ tumor <- read_csv("tumor.csv")
 
 @
 
-\section{Summary}
+\section{Introduction}
 
-
+This analysis plan describes how we intend to evaluate whether a drug treatment, a radiation treatment, or a combination of the two slows tumour growth in a mouse xenograft experiment. Because radiation is established as a treatment for tumours, we will begin by evaluating just the drug treatment, on its own, against the control. Then, we compare all three treatment groups with the control in a linear model. In both analyses we use the mean daily tumour growth rate for each mouse. 
 
 \section{Hypothesis}
 
-H1: A smaller average daily rate of tumor growth will be observed in mice receiving treatment compared to control
+\textbf{Hypothesis 1 (primary): Drug vs. control} We will compare the drug group with the control group only because we want to evaluate the new drug on its own first. 
 
-H2: 
+\begin{itemize}
 
+\item $H_0$: The mean of the per-mouse mean daily tumour growth rates is the same for the drug and control groups. $(\mu_{\text{drug}}=\mu_{\text{control}})$
+
+\item $H_1$: The mean daily tumour growth rate will differ between the two groups. $(\mu_{\text{drug}} \neq \mu_{\text{control}})$
+
+\end{itemize}
+
+This is a two sided test. We will interpret the direction of any effect from the sign of the estimate. 
+
+\textbf{Hypothesis 2: Each treatment group vs. control} Now using all four groups, we investigate whether each treatment group differs from the control group. We are not comparing treatment groups with eachother. For each treatment $i \in {1, 2, 3}$:
+
+\begin{itemize}
+
+\item $H_{0, i}$: $\mu_{\text{control}}=\mu_i$ (No difference in mean daily tumour growth rate from the control.)
+
+\item $H_{1, i}$: $\mu_{\text{control}}\neq\mu_i$
+
+\end{itemize}
 
 \section{Data}
 
+We use a dataset which comes from a longitudinal pre-clinical cancer study that evaluates the effects of different treatments on tumors in mice. The dataset includes measurements from a xenograft experiment, in which human tumours were implanted into mice to assess the in vivo biological response of human tumours to a new treatment. 
+
+In this study, 37 mice with tumours of similar starting size $(40-60 $mm$^3)$ were assigned to one of four groups: 
+
+\begin{enumerate}
+
+\item control $(n=8)$
+\item drug treatment $(n=10)$
+\item radiation treatment $(n=10)$
+\item drug and radiation treatment $(n=9)$
+
+\end{enumerate}
+
+The tumour volume was measured repeatedly, usually on weekdays, for up to four weeks. The number of measurements differs between mice because some had to be euthanized before the study ended (min=6, max=21). There are a total of 574 observations for 37 individual mice. 
+
+Measurements taken on the same mouse are not independent, and mice contribute different numbers of measurements. A t-test or linear model on all 574 observations would treat them as 574 independent observations, which would overstate significance. The mouse is the experimental unit because treatments are assigned to mice, so we reduce each mouse to a single number. This gives 37 independent observations, one per mouse, and removes the imbalance in measurement counts.
+
+We will calculate the mean daily tumour growth rate as follows. For mouse $i$, let $V_{i,0}$ be its baseline tumour volume, and $V_{i,j}$ its volume at measurement $j$, taken on day $t_{i,j}$. The growth rate over each interval between consecutive measurements, scaled to baseline size, is:
+
+\begin{equation*}
+g_{i,j} = \frac{V_{i,j}- V_{i,j-1}}{V_{i,0} (t_{i,j} - t_{i,j-1}) },
+\end{equation*}
+
+and the mean daily growth rate for mouse $i$ is the average over its $n_i$ intervals:
+
+\begin{equation*}
+m_i = \frac{1}{n_i} \sum_{j}^{n_i} g_{i,j}
+\end{equation*}
+
+For example, if $m_i = 2.45$, mouse $i$'s tumour grew on average by 245\% of its initial volume per day. A negative value means the tumour shrank on average. In the results we will state the units explicitly (fraction of baseline volume per day) so the coefficients are easy to read and interpret.
 
 \section{Analysis Plan}
+
+\subsection{Hypothesis 1}
+
+We will use a t-test on the per-mouse mean daily tumour growth rates. There are 8 control mice and 10 dug treatment mice. We will use $\alpha=0.05$. 
+
+First, we will report the raw difference in means between the two groups. In effect, $\mu_{\text{drug}} - \mu_{\text{control}}$. A negative difference would mean that overall, the drug group grew at a slower rate.
+
+Then, we will calculate and report the standard error. 
+This describes how much the difference in sample means would vary if we repeated the experiment. The sample size is small, so the s.e. will likely be large.
+
+We will then interpret the $95\%$ confidence interval. This is the range of true mean differences. We will check whether it includes 0, and whether it is wide. Especially with a sample size this small, the confidence interval will be more informative than the p-value. 
+
+The p-value is the probability of a difference at this large if $H_0$ were true. As mentioned above, other metrics are more informative than the p-value for our analysis. 
+
+Further, we will perform a permutation test with our data on the difference in means. This is to account for the small sample size. It asks whether our observed difference in means is unusual among numerous random relabeling of the mice to groups. The results of this could serve to increase our confidence in the t-test. 
+
+Before conducting our t-test we will make a boxplot of the data to observe the distribution. While it is very unlikely we will remove any potential outliers due to limited knowledge of the procedures for measurement, with such a small sample size it is important to be aware of any such data points. 
+
+\subsection{Hypothesis 2}
+
+We will fit a linear model with mean daily tumour growth rate as the response variable, and treatment group (4 levels) as the categorical predictor. The control group is the refernce level:
+
+\begin{equation*}
+m_i = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3,
+\end{equation*}
+
+where $X_1$ is indicator variable for the drug group, $X_2$ is the radiation group, $X_3$ is the drug $+$ radiation group, and $\beta_1, \beta_2, \beta_3$ are their respective model parameters.
+
+$\beta_0$ is the model intercept. The mean daily tumour growth rate in the control group.
+
+$\beta_1, \beta_2, \beta_3$ are the difference in mean daily tumour growth rate between each treatment group and the control group. A negative coefficient means that the treatment group tumours grew at a slower rate than the control. 
+
+The standard errors reflect the uncertainty in the estimated differences for each group. 
+
+We will interpret $95\%$ confidence intervals for each treatment vs. control difference. A CI that excludes 0 can indicate a difference from the control. As with Hypothesis 1, we interpret the width of the confidence interval to estimate the size of the effect. 
+
+Coefficient of determination $(R^2)$ is the share of variation in growth rate explained by group. This evaluates the overall fit of the model, and does not specifically pertain to our hypothesis. 
+
+\subsubsection{Model Diagnostics}
+
+We will check the following assumptions using the residual plots for the linear model:
+
+\begin{itemize}
+
+\item \textbf{Linearity.} We are using one categorial predictor so we expect the residuals vs. fitted plot fill show four lines of points. It is not possible to have any curves. Linearity holds.
+
+\item \textbf{Homoscedasticity.} We use a residuals vs. fitted plot and expect to see a vertical line of points centered around 0. 
+
+\item \textbf{Normality of residuals.} We use a Q-Q plot of the residuals. We expect to see a straight diagonal line of points. 
+
+\item \textbf{Influential points.} Residuals vs. leverage plot to identify single mice that are strongly influencing the group mean. 
+\end{itemize}
+
+\section{Exploratory Analysis of Growth Rates over Time}
+
+We aim to investigate the mean daily tumour growth rates and how that rate changes over time. Our previous analyses will use a single mean daily growth rate, which does not indicate whether growth might be linear, exponential, or otherwise slowing or speeding up over time. We do not intend to make formal claims following this portion of our analysis. 
+
+\begin{itemize}
+
+\item \textbf{Growth Trajectories.} We can plot raw growth trajectories for each mouse, and average curves for each group. If there is a difference in growth rates between groups and the control, we may be able to see where they begin to separate. 
+
+\item \textbf{Do we have linear growth?} We can plot $\log{\text{tumour volume}}$ against day. If these trajectories appear as straight lines, growth may be roughly exponential. We may also be able to determine if or when growth slows or accelerates. 
+
+\item \textbf{Rate of change of the rate of change (concavity).} We can plot the growth rates per day for each mouse and for each group. By smoothing these curves we may be able to see whether growth accelerates or slows at times. 
+\end{itemize}
+
+\section{Limitations}
+
+\begin{itemize}
+
+\item We have a very small sample, with 37 mice and 8-10 mice per treatment group. This gives our tests low power and potentially wide confidence intervals. Our analysis will be very sensitive to just one or two unusual mice. 
+
+\item Some mice were euthanized early, and this could be because their tumors were growing faster than others. This potential bias could affect group comparisons, especially if treatment does affect how long the mice live.
+
+\item The mice and tumours may differ in ways not captured in the data (strain, tumour type, etc.), which adds noise or confounding. Starting sizes were similar but not identical.
+
+\item A mouse xenograft experiment tells us about the response of these implanted human tumours in mice, not directly about treatment in people.
+
+\end{itemize}
+
+
+
 
 
 \section{Plan: Division of Labour}
