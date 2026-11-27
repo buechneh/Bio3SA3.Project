@@ -25,7 +25,7 @@
 \title{%
   {\bfseries Analysis Plan}\\[0.75em]
   \large Biology 3SA3: Applied Statistics\\[0.5em]
-  \large\underline{\emph{Group Name}}: group name here
+  \large\underline{\emph{Group Name}}: Human: Tumour
 }
 
 \author{Hazel Buechner, Cadence D'Souza, Harveer Hunjan,\\
@@ -49,7 +49,7 @@ tumor <- read_csv("tumor.csv")
 
 \section{Introduction}
 
-This analysis plan describes how we intend to evaluate whether a drug treatment, a radiation treatment, or a combination of the two slows tumour growth in a mouse xenograft experiment. Because radiation is established as a treatment for tumours, we will begin by evaluating just the drug treatment, on its own, against the control. Then, we compare all three treatment groups with the control in a linear model. In both analyses we use the mean daily tumour growth rate for each mouse. 
+This analysis plan describes how we intend to evaluate whether a drug treatment, a radiation treatment, or a combination of the two slows tumour growth in a mouse xenograft experiment. Because radiation is established as a treatment for tumours, we will begin by evaluating just the drug treatment, on its own, against the control. Then, we will compare all three treatment groups with the control in a linear model. In both analyses we use the mean daily tumour growth rate for each mouse. 
 
 \section{Hypothesis}
 
@@ -112,7 +112,7 @@ For example, if $m_i = 2.45$, mouse $i$'s tumour grew on average by 245\% of its
 
 \subsection{Hypothesis 1}
 
-We will use a t-test on the per-mouse mean daily tumour growth rates. There are 8 control mice and 10 dug treatment mice. We will use $\alpha=0.05$. 
+We will use a t-test on the per-mouse mean daily tumour growth rates. There are 8 control mice and 10 drug treatment mice. We will use $\alpha=0.05$. 
 
 First, we will report the raw difference in means between the two groups. In effect, $\mu_{\text{drug}} - \mu_{\text{control}}$. A negative difference would mean that overall, the drug group grew at a slower rate.
 
@@ -162,6 +162,8 @@ We will check the following assumptions using the residual plots for the linear 
 \item \textbf{Influential points.} Residuals vs. leverage plot to identify single mice that are strongly influencing the group mean. 
 \end{itemize}
 
+If our diagnoses do not provide the desired results, we will consider a $\log$ transformation of the mean daily tumour growth rate. We are also aware that these diagnostics will be very sensitive to just one extreme data point, due to our small sample size. A $\log$ transformation would compress extreme large values and spread out smaller values, an overall stabilizing effect on the data. 
+
 \section{Exploratory Analysis of Growth Rates over Time}
 
 We aim to investigate the mean daily tumour growth rates and how that rate changes over time. Our previous analyses will use a single mean daily growth rate, which does not indicate whether growth might be linear, exponential, or otherwise slowing or speeding up over time. We do not intend to make formal claims following this portion of our analysis. 
@@ -195,9 +197,26 @@ We aim to investigate the mean daily tumour growth rates and how that rate chang
 
 \section{Plan: Division of Labour}
 
+\begin{itemize} 
+
+\item Group Member 1: Background, data source, limitations associated with data collection.
 
 
+\item Group Member 2: Hypothesis 1 tests and interpretation.
 
+\item Group Member 3: Hypothesis 2 tests and interpretation.
+
+\item Group Member 4: Hypothesis 2 tests and interpretation.
+
+\item Group Member 5: Rate of change exploratory analysis.
+
+\item Group Member 6: Additional plots, visualizations of tumour growth and comparisons between groups. 
+
+\end{itemize}
+
+\bigskip
+
+Link to our shared statistical journal: \href{https://docs.google.com/document/d/1BKvKi0EO3Ac-XwjodCFHskrI4mpMirMIUUGpHSIPYTE/edit?usp=sharing}{Statistical Journal}
 
 
 \bigskip

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.22)  26 NOV 2026 12:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.22)  26 NOV 2026 12:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -924,7 +924,7 @@ Package rerunfilecheck Info: File `analysis.plan.out' has not changed.
 Here is how much of TeX's memory you used:
  25213 strings out of 467525
  464088 string characters out of 5418982
- 884646 words of memory out of 5000000
+ 884644 words of memory out of 5000000
  53659 multiletter control sequences out of 15000+600000
  640034 words of font info for 91 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -941,10 +941,10 @@ cal/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local
 texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/te
 xlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/tex
 live/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on analysis.plan.pdf (5 pages, 142858 bytes).
+Output written on analysis.plan.pdf (5 pages, 143802 bytes).
 PDF statistics:
- 147 PDF objects out of 1000 (max. 8388607)
- 114 compressed objects within 2 object streams
+ 148 PDF objects out of 1000 (max. 8388607)
+ 115 compressed objects within 2 object streams
  20 named destinations out of 1000 (max. 500000)
  93 words of extra memory for PDF output out of 10000 (max. 10000000)
 
